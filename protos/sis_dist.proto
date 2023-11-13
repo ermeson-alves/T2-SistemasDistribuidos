@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+service Atuador {
+  rpc DeviceOn (OnRequest) returns (OnReply);
+}
+
+message OnRequest {
+  bool on=1;
+  int32 temperatura=2;
+}
+
+message OnReply {
+  string codigo=1;
+}
