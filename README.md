@@ -41,6 +41,12 @@ python lamp.py
 python airconditioner.py
 ```
 
+- A lib protobuf é utilizada para implementação do formato de mensagem Protocol Buffers, onde o arquivo .proto é compilado para um arquivo python contendo os formatos de mensagem.
+
+- A lib pika é iimportada para implementar a interação com o servidor RabbitMQ, servindo como um cliante do message broker do RabbitMQ. Provê um MiddleWare para desenvolvedores que lida com conecção, abstração de cnáis e métodos de publicação e consumo.
+
+- A lib grpcio é utilizada para implementação do framework gRPC para as chamadas remotas de processo. Com ela é possível obter um segundo arquivo python resultante da compilação do arquivo proto, contendo as classes para chamada remota.
+
 #### Aplicação cliente:
 Existe um Menu principal em que os sub-menus, com opções dos Atuadores e Sensores, são disponíveis.
 
@@ -56,8 +62,8 @@ Existe um Menu principal em que os sub-menus, com opções dos Atuadores e Senso
 
 ## RabbitMQ
   O RabbitMQ usa o protocolo AMQP (Advanced Message Queuing Protocol) tanto para publicar quanto para consumir mensagens das filas.
-
+  Os sensores simulam um ambiente com as medições propostas no trablaho, essas medições, após geradas, são empacotadas em um corpo de uma mensagem e publicadas pelo RabbitMQ, o qual compõe o MiddleWare entre os Sensores e o Home Assistant. O corpo da mensagem que é enviada para o servidor RabbitMQ, publicado na fila correspondente, tem seu corpo formatadado em string. Esse corpo é extraído ao consumir da fila, dentro do Home Assistant, onde o conteúdo de interesse é reformatado de acordo. Por diante, o Home Assistant consome as mensagens da fila corespondente e chama, ao o fazer, a CallBackFunction que processa os dados recebidos, direcionando o fluxo do código de acordo. 
 
 ## Socket TCP
-  As mensagens trocadas são strings codificadas em UTF-8. Como dada opção do menu acompanha um index, o Home Assistant faz um tratamento especial para tipo de mensagem do cliente.
-  Os sensores simulam um ambiente com as medições propostas no trablaho, essas medições, após geradas, são empacotadas em um corpo de uma mensagem e publicadas pelo RabbitMQ, o qual compõe o MiddleWare entre os Sensores e o Home Assistant. O corpo da mensagem que é enviada para o servidor RabbitMQ, publicado na fila correspondente, tem seu corpo formatadado em string. Esse corpo é extraído ao consumir da fila, dentro do Home Assistant, onde o conteúdo de interesse é reformatado de acordo. Por diante, o Home Assistant consome as mensagens da fila corespondente e chama, ao o fazer, a CallBackFunction que processa os dados recebidos, direcionando o fluxo do código de acordo. 
+  As mensagens trocadas são strings codificadas em UTF-8. Como cada opção do menu acompanha um index, o Home Assistant faz um tratamento especial para tipo de mensagem do cliente. O Home Assistant possui uma thread para consumo dos dados dos sensores e chamadas remotas para os atuadores e outra thread para um servidor TCP que deve se comunicar com o cliente. Variaveis globais sao utilizadas para tornar viavel a interação entre os métodos de ambas as threads.
+  
