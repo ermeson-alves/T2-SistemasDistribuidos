@@ -12,6 +12,11 @@ Linguagem escolhida: Python (versão 3.10.12)
 ```code
 pip install -r requirements.txt
 ```
+#### Inicialização do RabbitMQ
+```code
+sudo docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management
+```
+
 
 #### O uso do repositório envolve rodar cada arquivo .py em processos isolados:
 
@@ -37,7 +42,7 @@ python airconditioner.py
 ```
 
 #### Aplicação cliente:
-Existe um Menu principal em que os sub-menus, com opções dos Atuadores e Sensores são disponíveis.
+Existe um Menu principal em que os sub-menus, com opções dos Atuadores e Sensores, são disponíveis.
 
  
 
