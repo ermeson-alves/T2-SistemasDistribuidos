@@ -17,6 +17,8 @@ Falar das libs aqui.
 
 - A lib protobuf é utilizada para implementação do formato de mensagem Protocol Buffers, onde o arquivo .proto é compilado para um arquivo python contendo os formatos de mensagem.
 
+- A lib pika é iimportada para implementar a interação com o servidor RabbitMQ, servindo como um cliante do message broker do RabbitMQ. Provê um MiddleWare para desenvolvedores que lida com conecção, abstração de cnáis e métodos de publicação e consumo.
+
 - A lib grpcio é utilizada para implementação do framework gRPC para as chamadas remotas de processo. Com ela é possível obter um segundo arquivo python resultante da compilação do arquivo proto, contendo as classes para chamada remota.
 
 
