@@ -15,6 +15,9 @@ pip install -r requirements.txt
 
 Falar das libs aqui.
 
+- A lib protobuf é utilizada para implementação do formato de mensagem Protocol Buffers, onde o arquivo .proto é compilado para um arquivo python contendo os formatos de mensagem.
+
+- A lib grpcio é utilizada para implementação do framework gRPC para as chamadas remotas de processo. Com ela é possível obter um segundo arquivo python resultante da compilação do arquivo proto, contendo as classes para chamada remota.
 
 
 ## Comunicação
