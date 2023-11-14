@@ -8,7 +8,7 @@ Renan Ribeiro De Oliveira - 471870<br>
 Carlos Victor Gonçalves Moura - 515016<br>
 
 ## Setup ⚙️
-Não compatível com Windows por conta da biblioteca de menus para CLI's. Linguagem escolhida: Python (versão 3.10.12)
+Não compatível com Windows por conta da biblioteca simple-term-menu de menus para CLI's. Linguagem escolhida: Python (versão 3.10.12)
 ```code
 pip install -r requirements.txt
 ```
