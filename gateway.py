@@ -168,49 +168,59 @@ def tcp_server(ip = TCP_SERVER_IP, port = TCP_SERVER_PORT):
         #     sensor_value = ligar_atuador(data.split(' ')[1])
         #     conn.sendall(sensor_value.encode("utf-8"))
 
+no_energy_msgns = {
+    'ar': f"""O sensor de temperatura e o ar-condicionado estão sem energia. Conecte-os com: "python airconditioner.py" """,
+    'lamp': f"""O sensor de luminosidade e a lâmpada estão sem energia. Conecte-os com: "python lamp.py" """,
+    'sis': f"""O sensor de fumaça e Sistema de controle de incendio estão sem energia. Conecte-os com: "python smokealarm.py" """
+}
 
 def send_sensor_value(atuador: str):
-    global temperature, lumen, smoke
+    global temperature, lumen, smoke, lampstatus
     if atuador == "ar":
         if temperature != None: return f"Temperatura: {temperature:.4f}"
-        else:                   return f"O sensor de temperatura e o ar-condicionado estão desligados."
+        else:                   return no_energy_msgns[atuador]
 
     elif atuador == "lamp":
         if lumen != None:       return f"Luminosidade: {lumen}"
-        else:                   return f"O sensor de luminosidade e a lâmpada estão desligados."
+        else:                   return no_energy_msgns[atuador]
     elif atuador == "sis":
         if smoke != None:       return f"Smoke: {smoke}"
-        else:                   return f"O sensor de fumaça e Sistema de controle de incendio estão desligados."
+        else:                   return no_energy_msgns[atuador]
 
     elif atuador == "alarm":
         if smoke != None:       return f"Alame ligado: {smokestatus}"
-        else:                   return f"O sensor de fumaça e Sistema de controle de incendio estão desligados."
+        else:                   return no_energy_msgns['sis']
 
 
 def ligar_atuador(atuador: str):
-    global acstatus, lampstatus, smokestatus
-    global accommand, lampcommand, deactivatesmoke, targettemp
+    global acstatus, lampstatus, smokestatus, accommand, lampcommand, deactivatesmoke, targettemp
+     
     if atuador == "ar":
         if acstatus:            
             return f"O ar-condicionado já está ligado!"
-        else:
+        # Se o equipamento está plugado na tomada...
+        elif temperature != None:
             accommand = True
             return f"Ar-condicionado ligado (target: {targettemp:.2f})!"
-        
+        # Se não...
+        else:
+            return no_energy_msgns[atuador]
     elif atuador == "lamp":
         if lampstatus:            
             return f"A lâmpada já está ligada!"
-        else:
+        elif lumen != None:
             lampcommand = True
             return f"Lampada ligada!"
-        
+        else:
+            return no_energy_msgns[atuador]
     elif atuador == "sis":
         if smokestatus:            
             return f"O Sistema Controlador de Incêncdio já está ligado!"
-        else:
+        elif smoke != None:
             deactivatesmoke = False
-            return f"Sistema Controlador de Incêncdio ligado!"
-
+            return f"Sistema Controlador de Incêndio ligado!"
+        else:
+            return no_energy_msgns[atuador]
 
 def desligar_atuador(atuador: str):
     global acstatus, lampstatus, smokestatus
@@ -242,7 +252,7 @@ def set_temp(temp: int):
     '''Permite mudar a temperatura do ar-condicionado'''
     global targettemp
     targettemp = temp
-    return f"Temperatura alterada para {temp}"
+    return f"Temperatura alvo alterada para {temp}!"
 
 
 

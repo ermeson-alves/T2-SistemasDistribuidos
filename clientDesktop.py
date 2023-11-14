@@ -20,7 +20,7 @@ def command_line_interface():
             # Menu lampada ==================================================================================================
             if main_sel == 0:
                 lamp_menu_title = "\n\nMenu Lampada\n  Precione Q ou Esc para retornar ao menu principal. \n"
-                lamp_menu_items = ["[1] Obter luminosidade atual", "[2] Ligar Lampada", "[3] Desligar Lampada", "[4] Sair"]
+                lamp_menu_items = ["[1] Obter luminosidade atual", "[2] Ligar Lampada (modo automático)", "[3] Desligar Lampada (modo automático)", "[4] Sair"]
                 lamp_menu_back = False
                 lamp_menu = TerminalMenu(lamp_menu_items, title=lamp_menu_title, cycle_cursor=True, clear_screen=False, menu_cursor_style=("fg_green", "bold"), menu_highlight_style=("bg_yellow", "fg_black"))
 
@@ -42,7 +42,7 @@ def command_line_interface():
             # Menu ar-condicionado ==========================================================================================
             elif main_sel == 1:
                 ar_menu_title = "\n\nMenu Ar-Condicionado\n  Precione Q ou Esc para retornar ao menu principal. \n"
-                ar_menu_items = ["[1] Obter temperatura atual", "[2] Ligar Ar-Condicionado", "[3] Desligar Ar-Condicionado", "[4] Mudar temperatura", "[5] Sair"]
+                ar_menu_items = ["[1] Obter temperatura atual", "[2] Ligar Ar-Condicionado (modo automático)", "[3] Desligar Ar-Condicionado (modo automático)", "[4] Mudar temperatura", "[5] Sair"]
                 ar_menu_back = False
                 ar_menu = TerminalMenu(ar_menu_items, title=ar_menu_title, cycle_cursor=True, clear_screen=False, menu_cursor_style=("fg_green", "bold"), menu_highlight_style=("bg_yellow", "fg_black"))
 
@@ -58,7 +58,7 @@ def command_line_interface():
                         send_tcp_msgn(f"{ar_menu_items[choice_ar].split(' ')[0]} ar")
 
                     elif choice_ar == 3:
-                        temp = int(input("Digite a temperatura desejada: "))
+                        temp = int(input("Digite a temperatura alvo desejada: "))
                         send_tcp_msgn(f"{ar_menu_items[choice_ar].split(' ')[0]} {temp} ar")
 
                     elif choice_ar == 4 or choice_ar == None:
@@ -108,7 +108,7 @@ def send_tcp_msgn(msgn:str, sucess_msg="Mensagem enviada com sucesso!"):
 
         return True
     except Exception as e:
-        print(f"Erro ao enviar a mensagem: {str(e)}")
+        print(f"Erro ao enviar a mensagem: {str(e)}.\nVerifique se o arquivo gateway.py está em execução!")
         return False
     finally:
         s.close()
